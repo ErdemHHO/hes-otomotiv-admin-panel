@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button,Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import { AiFillDelete,AiFillSetting } from 'react-icons/ai'
 
 function TableCom() {
