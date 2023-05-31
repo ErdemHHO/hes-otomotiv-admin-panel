@@ -6,13 +6,16 @@ import './stylesheet/dashboard.css'
 import Series from './pages/Series';
 import Cars from './pages/Cars';
 import Categories from './pages/Categories';
+import SigninPage from './pages/SigninPage';
 import Home from './pages/Home';
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<SigninPage />} />
         <Route path="/kategoriler" element={<Categories />} />
         <Route path="/seriler" element={<Series />} />
         <Route path="/arabalar" element={<Cars />} />

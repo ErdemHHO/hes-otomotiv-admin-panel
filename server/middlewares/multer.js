@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     cb(null, "public/files"); // files will be saved in public/files directory
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "_" + file.originalname); // filename will be date_now_originalname
+    cb(null, Date.now() + "-" + file.originalname); // filename will be date_now_originalname
   },
 });
 

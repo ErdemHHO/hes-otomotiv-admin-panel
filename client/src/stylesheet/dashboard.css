@@ -99,3 +99,17 @@ body {
 .main{
   margin-top: 50px;
 }
+
+
+.log-out-btn{
+  border: #727272 solid 1px;
+  border-radius: 10px;
+  color: #fff !important;
+}
+.log-out-btn:hover{
+  background-color: #f0f0f0;
+}
+.logout-btn:hover{
+  background-color: #f0f0f0;
+  color: #000 !important;
+}

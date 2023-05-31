@@ -1,13 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import bodyParser from 'body-parser';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 
 import categoryRoutes from './routes/category.js';
 import carRoutes from './routes/car.js';
 import seriRoutes from './routes/seri.js';
+import productRoutes from './routes/product.js';
+import adminRoutes from './routes/admin.js';
 
 const app = express();
 dotenv.config();
@@ -21,6 +22,8 @@ app.use(express.static("public"));
 app.use('/api/category', categoryRoutes);
 app.use('/api/car', carRoutes);
 app.use('/api/seri', seriRoutes);
+app.use('/api/product', productRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use((req, res) => {
   res.json({ success: false, message: "Geçersiz endpoint" });
