@@ -1,6 +1,7 @@
 import CategoryModel from '../models/category.js';
 import slugify from 'slugify';
 
+
 const getAllCategories = async (req, res) => {
   try {
     const categories = await CategoryModel.find();
@@ -41,7 +42,6 @@ const updateCategory = async (req, res) => {
   try {
     const { body } = req;
     const category = await CategoryModel.find({ slug: req.params.id });
-
     if (!category || category.length === 0) {
       return res.status(400).json({ success: false, message: "Kategori bulunamadi" });
     }
@@ -73,6 +73,8 @@ const deleteCategory = async (req, res) => {
     return res.status(400).json({ success: false, message: err.message });
   }
 };
+
+
 
 export {
   addCategory,

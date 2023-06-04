@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 
+import brandRoutes from './routes/brand.js';
 import categoryRoutes from './routes/category.js';
 import carRoutes from './routes/car.js';
 import seriRoutes from './routes/seri.js';
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static("public"));
 
+app.use('/api/brand', brandRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/car', carRoutes);
 app.use('/api/seri', seriRoutes);

@@ -113,3 +113,16 @@ body {
   background-color: #f0f0f0;
   color: #000 !important;
 }
+
+.image-delete-button{
+  background-color: #E32816;
+  color: #000;
+  border-radius: 5px;
+  margin: 3px;
+}
+.image-delete-button:hover{
+  background-color: #000000;
+  color: #E32816;
+  border-radius: 5px;
+  margin: 3px;
+}

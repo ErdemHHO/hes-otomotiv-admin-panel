@@ -1,14 +1,22 @@
 import CarModel from '../models/car.js';
+import SeriModel from '../models/seri.js';
 import mongoose from 'mongoose'
 import fs from'fs';
 import slugify from 'slugify';
+import s3 from '../s3.js';
+
+const bucketName = "hes-otomotiv";
 
 
 
 const deleteImages = (imageUrls) => {
   imageUrls.forEach((imageUrl) => {
-    const imagePath = `public/${imageUrl}`;
-    fs.unlink(imagePath, (error) => {
+    const filename = imageUrl.split('/').pop();
+    const params = {
+      Bucket: bucketName,
+      Key: filename,
+    };
+    s3.deleteObject(params, (error) => {
       if (error) {
         console.log(`Resim silinirken hata oluştu: ${error}`);
       }
@@ -17,42 +25,102 @@ const deleteImages = (imageUrls) => {
 };
 
 
+
 const getAllCars = async (req, res) => {
   try {
     const cars = await CarModel.find();
     if (!cars || cars.length === 0) {
       return res.status(400).json({ success: false, message: "Araba bulunamadı" });
     }
-    return res.status(200).json({ success: true, cars });
 
+    const carsWithImages = await Promise.all(
+      cars.map(async (car) => {
+        if (car.image_urls && car.image_urls.length > 0) {
+          const imageUrls = await Promise.all(
+            car.image_urls.map(async (imageUrl) => {
+              const filename = imageUrl.split('/').pop();
+              const params = {
+                Bucket: bucketName,
+                Key: filename,
+              };
+              const signedUrl = await s3.getSignedUrlPromise('getObject', params);
+              return signedUrl;
+            })
+          );
+          return { ...car._doc, image_urls: imageUrls };
+        }
+        return car;
+      })
+    );
+
+    return res.status(200).json({ success: true, cars: carsWithImages });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
 
-const addCar = async (req,res)=>{
+const getCar = async (req, res) => {
   try {
+    const car = await CarModel.findOne({ slug: req.params.id });
+    if (!car) {
+      return res.status(400).json({ success: false, message: "Araba bulunamadı" });
+    }
 
+    // Eğer araba resim URL'leri varsa, S3 URL'leriyle değiştir
+    if (car.image_urls && car.image_urls.length > 0) {
+      const imageUrls = await Promise.all(
+        car.image_urls.map(async (imageUrl) => {
+          const filename = imageUrl.split('/').pop();
+          const params = {
+            Bucket: bucketName,
+            Key: filename,
+          };
+          const signedUrl = await s3.getSignedUrlPromise('getObject', params);
+          return signedUrl;
+        })
+      );
+      car.image_urls = imageUrls;
+    }
+
+    return res.status(200).json({ success: true, car });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const addCar = async (req, res) => {
+  try {
     const { name, series_id } = req.body;
     const files = req.files;
 
     if (!mongoose.Types.ObjectId.isValid(series_id)) {
       return res.status(400).json({ success: false, message: "Hatalı işlem" });
     }
+
+    let imageUrls = [];
     if (files) {
-      const image_url = files.map((file) => file.path.replace("public/", ""));
-      const newCar = await CarModel.create({ name:name,series_id:series_id, image_urls: image_url });
-      return res.status(201).json({ success: true, message: "Araba basariyla eklendi", newCar });
+      for (const file of files) {
+        const fileContent = fs.readFileSync(file.path);
+        const params = {
+          Bucket: bucketName,
+          Key: file.filename,
+          Body: fileContent,
+        };
+
+        await s3.upload(params).promise();
+
+        const imageUrl = `https://${bucketName}.s3.amazonaws.com/${file.filename}`;
+        imageUrls.push(imageUrl);
+      }
     }
 
+    const newCar = await CarModel.create({ name: name, series_id: series_id, image_urls: imageUrls });
 
-    const newCar = await CarModel.create({ name:name,series_id:series_id });
-    return res.status(201).json({ success: true, message: "Resimsiz araba basariyla eklendi.", newCar });
-
+    return res.status(201).json({ success: true, message: "Araba başarıyla eklendi", newCar });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }
-}
+};
 
 const updateCar = async (req, res) => {
   try {
@@ -68,15 +136,34 @@ const updateCar = async (req, res) => {
 
     body.slug = slug;
 
+    const imageUrls = [];
+  
+    for (const file of files) {
+      const fileContent = fs.readFileSync(file.path);
+      const params = {
+        Bucket: bucketName,
+        Key: file.filename,
+        Body: fileContent,
+      };
+  
+      await s3.upload(params).promise();
+  
+      const imageUrl = `https://${bucketName}.s3.amazonaws.com/${file.filename}`;
+      imageUrls.push(imageUrl);
+    }
+  
+    const updatedCar = await CarModel.findByIdAndUpdate(
+      car[0]._id,
+      { ...body, image_urls: imageUrls },
+      { new: true }
+    );
 
-    const image_url = files.map((file) => file.path.replace("public/", ""));
-    const updatedCar = await CarModel.findByIdAndUpdate(car[0]._id, { ...body, image_urls: image_url }, { new: true });
-
-    return res.status(200).json({ success: true, message: "Araba basariyla guncellendi", updatedCar});
+    return res.status(200).json({ success: true, message: "Araba basariyla guncellendi", updatedCar });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
   }
 };
+
 
 const deleteCar = async (req, res) => {
   try {
@@ -85,9 +172,8 @@ const deleteCar = async (req, res) => {
       return res.status(400).json({ success: false, message: "Araba bulunamadi" });
     }
 
-
     const imageUrls = car[0].image_urls;
-    
+
     await deleteImages(imageUrls);
 
     await CarModel.findByIdAndDelete(car[0]._id);
@@ -100,6 +186,7 @@ const deleteCar = async (req, res) => {
 
 export {
   getAllCars,
+  getCar,
   addCar,
   updateCar,
   deleteCar

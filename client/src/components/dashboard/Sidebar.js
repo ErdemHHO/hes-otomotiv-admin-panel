@@ -23,6 +23,12 @@ function sidebar() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/markalar">
+                  <span data-feather="shopping-cart" className="align-text-bottom"></span>
+                  Markalar
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/seriler">
                   <span data-feather="shopping-cart" className="align-text-bottom"></span>
                   Seriler

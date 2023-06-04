@@ -3,27 +3,27 @@ import * as api from '../../api/index.js';
 import { Form, Button, Container } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-function UpFormCom({ categorySlug, handlePageChange }) {
-  const [category, setCategory] = useState({});
+function UpFormCom({ brandSlug, handlePageChange }) {
+  const [brand, setBrand] = useState({});
   const [formData, setFormData] = useState({
     name: '',
   });
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
-    const getCategory = async () => {
+    const getBrand = async () => {
       try {
-        const response = await api.kategoriGetir(categorySlug);
-        setCategory(response.data.category);
+        const response = await api.markaGetir(brandSlug);
+        setBrand(response.data.brand);
         setFormData({
-          name: response.data.category.name || '',
+          name: response.data.brand.name || '',
         });
       } catch (error) {
         console.log(error);
       }
     };
-    getCategory();
-  }, [categorySlug]);
+    getBrand();
+  }, [brandSlug]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,12 +37,12 @@ function UpFormCom({ categorySlug, handlePageChange }) {
       return;
     }
     try {
-      const response = await api.kategoriGuncelle(categorySlug, formData);
+      const response = await api.markaGuncelle(brandSlug, formData);
       toast.success(response.data.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
-      handlePageChange("kategoriler");
+      handlePageChange("markalar");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -56,7 +56,7 @@ function UpFormCom({ categorySlug, handlePageChange }) {
     const errors = {};
     let isValid = true;
     if (!formData.name) {
-      errors.name = 'Kategori adı giriniz';
+      errors.name = 'Marka adı giriniz';
       isValid = false;
     }
     setFormErrors(errors);
@@ -65,17 +65,17 @@ function UpFormCom({ categorySlug, handlePageChange }) {
 
   return (
     <div>
-      <h5 className='mb-3 text-center'>Kategori GÜNCELLE</h5>
+      <h5 className='mb-3 text-center'>MARKA GÜNCELLE</h5>
       <Container>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className='mb-3' controlId='formBasicCategoryName'>
-            <Form.Label>Kategori Adı</Form.Label>
+          <Form.Group className='mb-3' controlId='formBasicBrandName'>
+            <Form.Label>Marka Adı</Form.Label>
             <Form.Control
               type='text'
               name='name'
               value={formData.name}
               onChange={handleChange}
-              placeholder='Kategori Adı'
+              placeholder='Marka Adı'
             />
             {formErrors.name && (
               <div className='text-danger'>{formErrors.name}</div>

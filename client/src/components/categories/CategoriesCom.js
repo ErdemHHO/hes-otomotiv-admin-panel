@@ -34,14 +34,15 @@ function CategoriesCom() {
 
   const deleteFunction = async (slug) => {
     try {
-        await api.kategoriSil(slug);
-        const response = await api.kategorileriGetir();
-        setCategories(response.data.categories);
+      await api.kategoriSil(slug);
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.slug !== slug)
+      );
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
-
+  };
+  
 
   return (
     <div>
@@ -113,7 +114,7 @@ function CategoriesCom() {
           </div>
         ) : activePage === "kategori-ekle" ? (
           <div>
-            <FormCom />
+            <FormCom handlePageChange={handlePageChange}/>
           </div>
         ) : (
           <div>

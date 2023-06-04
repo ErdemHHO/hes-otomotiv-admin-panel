@@ -23,12 +23,12 @@ function FormCom( {handlePageChange} ) {
       return;
     }
     try {
-      const response = await api.kategoriEkle(formData);
+      const response = await api.markaEkle(formData);
       toast.success(response.data.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
-      handlePageChange("kategoriler");
+      handlePageChange("markalar");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -43,7 +43,7 @@ function FormCom( {handlePageChange} ) {
     let isValid = true;
     if (!formData.name) {
       isValid = false;
-      errors.name = 'Kategori adı boş bırakılamaz';
+      errors.name = 'Marka adı boş bırakılamaz';
     }
     return { isValid, errors };
   };
@@ -52,7 +52,7 @@ function FormCom( {handlePageChange} ) {
     <div>
       <Form onSubmit={handleSubmit} >
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Kategori Adı</Form.Label>
+          <Form.Label>Marka Adı</Form.Label>
           <Form.Control 
           type="text" 
           placeholder="" 

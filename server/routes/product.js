@@ -11,7 +11,7 @@ router.get("/search/search",searchProduct);
 
 router.post("/",upload.array("images"),addProduct);
 
-router.patch("/:id", updateProduct);
+router.patch("/:id",upload.array("images"), updateProduct);
 
 router.delete("/:id", deleteProduct);
 
