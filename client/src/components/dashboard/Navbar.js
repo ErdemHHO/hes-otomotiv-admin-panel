@@ -1,22 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { Link,useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import * as actionType from '../../constants/actionTypes';
 
-function navbar() {
+function Navbar() {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('AdminProfile')));
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch({ type: actionType.ADMINLOGOUT });
+
+    navigate('/signin');
+
+    setUser(null);
+  };
+
   return (
     <div>
-            
-        <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Company name</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <Link to='/' className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 fw-bold text-center" >
+          HES OTOMOTİV
+        </Link>
+        <button
+          className="navbar-toggler position-absolute d-md-none collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sidebarMenu"
+          aria-controls="sidebarMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="#">Sign out</a>
-            </div>
+        <div className="navbar-nav log-out-btn mx-3">
+          <div className="nav-item text-nowrap" onClick={logout}>
+            <Button className="nav-link px-3 logout-btn">Çıkış Yap</Button>
+          </div>
         </div>
-        </header>
+      </header>
     </div>
-  )
+  );
 }
 
-export default navbar
+export default Navbar;

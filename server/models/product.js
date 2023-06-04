@@ -19,13 +19,6 @@ const ProductSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  series_id: {
-    type: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'series'
-    }],
-    required: true
-  },
   car_id: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -39,8 +32,8 @@ const ProductSchema = new mongoose.Schema({
     required: true
   },
   status: {
-    type: String,
-    enum: ['Sıfır', 'Çıkma/2.El'],
+    type: Boolean,
+    default: true,
     required: true
   },
   brand_id: {
@@ -56,23 +49,26 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  oldPrice: {
+    type: Number,
+    required: true
+  },
   sellingPrice: {
     type: Number,
     required: true
   },
   salesFormat: {
-    type: String,
-    enum: ['Takım', 'Adet'],
+    type: Boolean,
+    default: true,
     required: true
   },
   date: {
     type: Date,
     default: Date.now
   },
-  active: {
-    type: String,
-    enum: ['Aktif', 'Pasif'],
-    default: 'Aktif',
+  isActive: {
+    type: Boolean,
+    default: true,
     required: true
   },
   image_urls: [
