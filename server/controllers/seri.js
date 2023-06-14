@@ -141,7 +141,18 @@ const addSeri = async (req, res) => {
   
       let oldImages = [];
       if (req.body.old_images) {
-        oldImages = Array.isArray(req.body.old_images) ? req.body.old_images : [req.body.old_images];
+        
+        if (Array.isArray(req.body.old_images)) {
+          oldImages = req.body.old_images.map(url => {
+            const decodedURL = decodeURIComponent(url);
+            const validURL = decodedURL.split("?")[0];
+            return validURL;
+          });
+        } else {
+          const decodedURL = decodeURIComponent(req.body.old_images);
+          const validURL = decodedURL.split("?")[0];
+          oldImages.push(validURL);
+        }
       }
   
       const newImageUrls = [];

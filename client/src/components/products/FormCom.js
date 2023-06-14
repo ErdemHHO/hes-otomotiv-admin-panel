@@ -27,7 +27,6 @@ function FormCom({ handlePageChange }) {
     salesFormat: true,
     isActive: true,
   });
-  console.log(formProductData)
   const [uploadimage, setUploadimage] = useState([]);
   const [formErrors, setFormErrors] = useState({});
 
@@ -61,7 +60,6 @@ function FormCom({ handlePageChange }) {
     getCars();
 
   }, []);
-
 
   const handleChangeCars = (event) => {
     const carId = event.target.value;
@@ -134,7 +132,10 @@ function FormCom({ handlePageChange }) {
       formData.append('sellingPrice', formProductData.sellingPrice);
       formData.append('salesFormat', formProductData.salesFormat);
       formData.append('isActive', formProductData.isActive);
-      formData.append('image', uploadimage.files);
+  
+      uploadimage.forEach((image) => {
+        formData.append('images', image.file);
+      });
   
       const response = await api.urunEkle(formData);
       toast.success(response.data.message, {
@@ -150,6 +151,7 @@ function FormCom({ handlePageChange }) {
       });
     }
   };
+  
   
 
   const validateForm = () => {

@@ -21,7 +21,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+      <header className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <Link to='/' className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 fw-bold text-center" >
           HES OTOMOTİV
         </Link>
@@ -36,11 +36,6 @@ function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="navbar-nav log-out-btn mx-3">
-          <div className="nav-item text-nowrap" onClick={logout}>
-            <Button className="nav-link px-3 logout-btn">Çıkış Yap</Button>
-          </div>
-        </div>
       </header>
     </div>
   );

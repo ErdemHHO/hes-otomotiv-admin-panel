@@ -36,8 +36,9 @@ const getAllCars = async (req, res) => {
     const carsWithImages = await Promise.all(
       cars.map(async (car) => {
         if (car.image_urls && car.image_urls.length > 0) {
+          const validImageUrls = car.image_urls.filter((imageUrl) => imageUrl.trim() !== '');
           const imageUrls = await Promise.all(
-            car.image_urls.map(async (imageUrl) => {
+            validImageUrls.map(async (imageUrl) => {
               const filename = imageUrl.split('/').pop();
               const params = {
                 Bucket: bucketName,
@@ -128,7 +129,7 @@ const updateCar = async (req, res) => {
     const car = await CarModel.find({ slug: req.params.id });
 
     if (!car || car.length === 0) {
-      return res.status(400).json({ success: false, message: "Araba bulunamadi" });
+      return res.status(400).json({ success: false, message: "Araba bulunamadı" });
     }
 
     const nameSlug = slugify(req.body.name, { lower: true, remove: /[*+~.()'"!:@]/g });
@@ -136,8 +137,25 @@ const updateCar = async (req, res) => {
 
     body.slug = slug;
 
-    const imageUrls = [];
-  
+    let oldImages = [];
+    if (req.body.old_images) {
+      
+      if (Array.isArray(req.body.old_images)) {
+        oldImages = req.body.old_images.map(url => {
+          const decodedURL = decodeURIComponent(url);
+          const validURL = decodedURL.split("?")[0];
+          return validURL;
+        });
+      } else {
+        const decodedURL = decodeURIComponent(req.body.old_images);
+        const validURL = decodedURL.split("?")[0];
+        oldImages.push(validURL);
+      }
+    }
+    
+
+    const newImageUrls = [];
+
     for (const file of files) {
       const fileContent = fs.readFileSync(file.path);
       const params = {
@@ -145,24 +163,27 @@ const updateCar = async (req, res) => {
         Key: file.filename,
         Body: fileContent,
       };
-  
+
       await s3.upload(params).promise();
-  
+
       const imageUrl = `https://${bucketName}.s3.amazonaws.com/${file.filename}`;
-      imageUrls.push(imageUrl);
+      newImageUrls.push(imageUrl);
     }
-  
+
     const updatedCar = await CarModel.findByIdAndUpdate(
       car[0]._id,
-      { ...body, image_urls: imageUrls },
+      { ...body, image_urls: [...oldImages, ...newImageUrls] },
       { new: true }
     );
 
-    return res.status(200).json({ success: true, message: "Araba basariyla guncellendi", updatedCar });
+    return res.status(200).json({ success: true, message: "Araba başarıyla güncellendi", updatedCar });
   } catch (err) {
     return res.status(400).json({ success: false, message: err.message });
   }
 };
+
+
+
 
 
 const deleteCar = async (req, res) => {

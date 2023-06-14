@@ -13,7 +13,6 @@ function UpFormCom({ handlePageChange, seriSlug }) {
   const [formErrors, setFormErrors] = useState({});
   const [uploadImage, setUploadImage] = useState([]);
   const [images, setImages] = useState([]);
-  console.log(images)
 
   const handleChange = (e) => {
     setFormSeriData({ ...formSeriData, [e.target.name]: e.target.value });
@@ -58,6 +57,11 @@ function UpFormCom({ handlePageChange, seriSlug }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { isValid, errors } = validateForm();
+    if (!isValid) {
+      setFormErrors(errors);
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append('name', formSeriData.name);
@@ -138,7 +142,7 @@ function UpFormCom({ handlePageChange, seriSlug }) {
                       <FiX className="image-delete-button" size={16} />
                     </div>
                     <img
-                      src={`http://localhost:4000/${image}`}
+                      src={image}
                       alt="selected"
                       style={{ height: '250px', maxWidth: '200px' }}
                     />

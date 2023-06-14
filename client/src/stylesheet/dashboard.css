@@ -27,7 +27,7 @@ body {
 
 @media (max-width: 767.98px) {
   .sidebar {
-    top: 5rem;
+    top: 0rem;
   }
 }
 
@@ -63,11 +63,15 @@ body {
 /*
  * Navbar
  */
-
+.navbar{
+  background-color: #2470dc !important;
+  color: #fff !important;
+}
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
   background-color: rgba(0, 0, 0, .25);
+  color: #fff !important;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
 }
 
@@ -125,4 +129,25 @@ body {
   color: #E32816;
   border-radius: 5px;
   margin: 3px;
+}
+.nav-link{
+  font-size: 1rem;
+}
+.nav-link:hover{
+  background-color: #036db4;
+  color: #fff !important;
+}
+
+.isActiveYes{
+  color: #198754;
+}
+.isActiveNo{
+  color: #DC3545;
+}
+
+.isActiveYes:hover{
+  color: #00d371;
+}
+.isActiveNo:hover{
+  color: #ff0019;
 }

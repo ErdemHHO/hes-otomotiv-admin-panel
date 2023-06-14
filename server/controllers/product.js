@@ -55,30 +55,27 @@ const getAllProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const product = await ProductModel.find({ slug: req.params.id });
-    if (!product || product.length === 0) {
+    const product = await ProductModel.findOne({ slug: req.params.id });
+    if (!product) {
       return res.status(400).json({ success: false, message: "Ürün bulunamadı" });
     }
 
-    const productWithImages = await Promise.all(
-      product.map(async (item) => {
-        if (item.image_urls && item.image_urls.length > 0) {
-          const imageUrls = await Promise.all(
-            item.image_urls.map(async (imageUrl) => {
-              const filename = imageUrl.split('/').pop();
-              const params = {
-                Bucket: bucketName,
-                Key: filename,
-              };
-              const signedUrl = await s3.getSignedUrlPromise('getObject', params);
-              return signedUrl;
-            })
-          );
-          return { ...item._doc, image_urls: imageUrls };
-        }
-        return item;
-      })
-    );
+    const productWithImages = { ...product._doc };
+
+    if (productWithImages.image_urls && productWithImages.image_urls.length > 0) {
+      const imageUrls = await Promise.all(
+        productWithImages.image_urls.map(async (imageUrl) => {
+          const filename = imageUrl.split('/').pop();
+          const params = {
+            Bucket: bucketName,
+            Key: filename,
+          };
+          const signedUrl = await s3.getSignedUrlPromise('getObject', params);
+          return signedUrl;
+        })
+      );
+      productWithImages.image_urls = imageUrls;
+    }
 
     return res.status(200).json({ success: true, product: productWithImages });
   } catch (error) {
@@ -91,7 +88,6 @@ const getProduct = async (req, res) => {
   const addProduct = async (req, res) => {
     try {
       const { body, files } = req;
-  
       const stockCode = req.body.stockCode;
   
       const stockCodeControl = await ProductModel.findOne({ stockCode });
@@ -137,6 +133,23 @@ const getProduct = async (req, res) => {
       if (!product || product.length === 0) {
         return res.status(400).json({ success: false, message: "Ürün bulunamadı" });
       }
+
+
+    let oldImages = [];
+    if (req.body.old_images) {
+      
+      if (Array.isArray(req.body.old_images)) {
+        oldImages = req.body.old_images.map(url => {
+          const decodedURL = decodeURIComponent(url);
+          const validURL = decodedURL.split("?")[0];
+          return validURL;
+        });
+      } else {
+        const decodedURL = decodeURIComponent(req.body.old_images);
+        const validURL = decodedURL.split("?")[0];
+        oldImages.push(validURL);
+      }
+    }
   
       let image_urls = product[0].image_urls;
   

@@ -5,9 +5,9 @@ import { getAllAdmins,getAdmin,signin,signup,deleteAdmin,updateAdmin } from '../
 const router = express.Router();
 
 
-router.get("/admins", getAllAdmins);
+router.get("/", getAllAdmins);
 
-router.get("/admin/:id",getAdmin);
+router.get("/:id",getAdmin);
 
 router.post("/signin", signin);
 
