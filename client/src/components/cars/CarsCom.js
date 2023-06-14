@@ -110,7 +110,7 @@ function CarsCom() {
                       <td>{car._id}</td>
                       <td>
                       <td className="d-flex justify-content-center">
-                        <img src={car.image_urls[0]} alt={car.name} width="50" height="50"/>
+                        <img src={car.image_urls[0]} alt={car.name} width="30" height="30"/>
                       </td>
                       </td>
                       <td>{car.name}</td>

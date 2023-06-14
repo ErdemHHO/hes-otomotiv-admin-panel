@@ -33,6 +33,7 @@ const signin = async (req, res) => {
 
 const signup = async (req, res) => {
   const { email, password, confirmPassword, name, surname,isSuperAdmin } = req.body;
+  console.log(req.body);
 
   try {
     const admin = await AdminModel.findOne({ email });
@@ -108,7 +109,7 @@ const deleteAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     const id = req.params.id;
-    const { old_password, newPassword, newConfirmPassword } = req.body;
+    const { old_password, new_password, newConfirmPassword, isSuperAdmin } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ success: false, message: "Hatalı işlem" });
@@ -118,10 +119,10 @@ const updateAdmin = async (req, res) => {
       return res.status(400).json({ success: false, message: "Admin bulunamadı" });
     }
 
-    if (newPassword !== newConfirmPassword) {
+    if (new_password !== newConfirmPassword) {
       return res.status(400).json({ success: false, message: "Parolalar Aynı Değil" });
     }
-    if (newPassword == old_password) {
+    if (new_password == old_password) {
       return res.status(400).json({ success: false, message: "Yeni Şifre Eski Şifre İle Aynı Olamaz" });
     }
 
@@ -130,25 +131,33 @@ const updateAdmin = async (req, res) => {
     if (!parolaKontrol) return res.status(400).json({ success: false, message: "Eski Şifre Yanlış" });
 
     // Şifre uzunluğu kontrolü
-    if (newPassword.length < 8) return res.status(400).json({ success: false, message: "Parola en az 8 karakter uzunluğunda olmalıdır" });
+    if (new_password.length < 8) return res.status(400).json({ success: false, message: "Parola en az 8 karakter uzunluğunda olmalıdır" });
 
     // Şifre özellik kontrolü (büyük harf, küçük harf, sayı, özel karakter)
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,_-])[A-Za-z\d@$!%*?&.,_-]+$/;
-    if (!passwordRegex.test(newPassword))
+    if (!passwordRegex.test(new_password))
       return res.status(400).json({
         success: false,
         message: "Parola en az bir büyük harf, bir küçük harf, bir sayı ve bir özel karakter içermelidir",
       });
 
-    const hashlenmisPassword = await bcrypt.hash(newPassword, 12);
+    const hashlenmisPassword = await bcrypt.hash(new_password, 12);
 
-    const newAdmin = await AdminModel.findByIdAndUpdate(id, { password: hashlenmisPassword }, { new: true });
-
+    const newAdmin = await AdminModel.findByIdAndUpdate(
+      id,
+      {
+        password: hashlenmisPassword,
+        isSuperAdmin,
+      },
+      { new: true }
+    );
+    console.log("Şifre başarı ile güncellendi");
     return res.status(200).json({ success: true, message: "Şifre başarı ile güncellendi", newAdmin });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
 
 export {
   signin,

@@ -70,6 +70,11 @@ function UpFormCom({ handlePageChange, carSlug }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { isValid, errors } = validateForm();
+    if (!isValid) {
+      setFormErrors(errors);
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append('name', formCarData.name);
@@ -182,7 +187,7 @@ function UpFormCom({ handlePageChange, carSlug }) {
                         <FiX className="image-delete-button" size={16} />
                       </div>
                       <img
-                        src={`http://localhost:4000/${image}`}
+                        src={image}
                         alt="selected"
                         style={{ height: '250px', maxWidth: '200px' }}
                       />
