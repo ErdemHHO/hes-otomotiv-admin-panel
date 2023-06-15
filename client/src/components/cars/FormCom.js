@@ -12,7 +12,6 @@ function FormCom({ handlePageChange }) {
     name: '',
     series_id: '',
   });
-  console.log(formCarData)
   const [uploadimage, setUploadimage] = useState([]);
   const [formErrors, setFormErrors] = useState({});
 

@@ -1,29 +1,23 @@
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
-const SellingSchema = new mongoose.Schema({
-  email:{
-    type: String,
-    required: true,
-    unique:true
-  },
-  password:{
-      type: String,
-      required: true
-  },
-  name:{
-      type: String,
-      required: true
-  },
-  surname:{
-      type: String,
-      required: true
-  },
-  isSuperAdmin: {
-    type: Boolean,
-    default: false,
-  },
-}, { timestamps: true, versionKey: false });
+// const { Schema } = mongoose;
 
-const AdminModel = mongoose.model('Selling', SellingSchema);
+// const SellingSchema = new Schema({
+//   customerName: {
+//     type: String,
+//     required: true
+//   } ,
+//   phoneNumber: String,
+//   products: [{
+//     productName: String,
+//     productStockCode: String,
+//     productPrice: Number,
+//   }],
+//   date: { type: Date, default: Date.now },
+//   description: String,
+//   isPaid: { type: Boolean, default: false }
+// });
 
-export default AdminModel;
+// const SellingModel = mongoose.model('Selling', SellingSchema);
+
+// export default SellingModel;

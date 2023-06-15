@@ -7,46 +7,55 @@ const url4 = "/api/product";
 const url5 = "/api/brand";
 const url6 = "/api/admin";
 
-export const kategorileriGetir=()=>axios.get(url1);
-export const kategoriGetir=(id)=>axios.get(`${url1}/${id}`);
-export const kategoriEkle=(formData)=>axios.post(url1,formData);
-export const kategoriGuncelle=(id,formData)=>axios.patch(`${url1}/${id}`,formData);
-export const kategoriSil = (id) => axios.delete(`${url1}/${id}`);
+const API = axios.create({ baseURL: 'http://localhost:4000' });
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('adminProfile')) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('adminProfile')).token}`
+  }
+  return req;
+});
 
-export const serileriGetir=()=>axios.get(url2);
-export const seriGetir=(id)=>axios.get(`${url2}/${id}`);
-export const seriEkle=(formData)=>axios.post(url2,formData);
-export const seriGuncelle=(id,formData)=>axios.patch(`${url2}/${id}`,formData);
-export const seriSil = (id) => axios.delete(`${url2}/${id}`);
+export const kategorileriGetir = () => API.get(url1);
+export const kategoriGetir = (id) => API.get(`${url1}/${id}`);
+export const kategoriEkle = (formData) => API.post(url1, formData);
+export const kategoriGuncelle = (id, formData) => API.patch(`${url1}/${id}`, formData);
+export const kategoriSil = (id) => API.delete(`${url1}/${id}`);
 
-export const arabalariGetir=()=>axios.get(url3);
-export const arabaGetir=(id)=>axios.get(`${url3}/${id}`);
-export const arabaEkle=(formData)=>axios.post(url3,formData);
-export const arabaGuncelle=(id,formData)=>axios.patch(`${url3}/${id}`,formData);
-export const arabaSil = (id) => axios.delete(`${url3}/${id}`);
+export const serileriGetir = () => API.get(url2);
+export const seriGetir = (id) => API.get(`${url2}/${id}`);
+export const seriEkle = (formData) => API.post(url2, formData);
+export const seriGuncelle = (id, formData) => API.patch(`${url2}/${id}`, formData);
+export const seriSil = (id) => API.delete(`${url2}/${id}`);
 
-export const urunleriGetir=()=>axios.get(url4);
-export const urunGetir=(id)=>axios.get(`${url4}/${id}`);
-export const urunEkle=(formData)=>axios.post(url4,formData);
-export const urunGuncelle=(id,formData)=>axios.patch(`${url4}/${id}`,formData);
-export const urunSil = (id) => axios.delete(`${url4}/${id}`);
+export const arabalariGetir = () => API.get(url3);
+export const arabaGetir = (id) => API.get(`${url3}/${id}`);
+export const arabaEkle = (formData) => API.post(url3, formData);
+export const arabaGuncelle = (id, formData) => API.patch(`${url3}/${id}`, formData);
+export const arabaSil = (id) => API.delete(`${url3}/${id}`);
+
+export const urunleriGetir = () => API.get(url4);
+export const urunGetir = (id) => API.get(`${url4}/${id}`);
+export const urunToplamlarıGetir = () => API.get(`${url4}/total/total`);
+export const urunEkle = (formData) => API.post(url4, formData);
+export const urunGuncelle = (id, formData) => API.patch(`${url4}/${id}`, formData);
+export const urunSil = (id) => API.delete(`${url4}/${id}`);
 export const urunBul = (query) => {
-    return axios.get(`${url4}/search`, {
-      params: { q: query },
-    });
-  };
-  
-export const markalariGetir=()=>axios.get(url5);
-export const markaGetir=(id)=>axios.get(`${url5}/${id}`);
-export const markaEkle=(formData)=>axios.post(url5,formData);
-export const markaGuncelle=(id,formData)=>axios.patch(`${url5}/${id}`,formData);
-export const markaSil = (id) => axios.delete(`${url5}/${id}`);
+  return API.get(`${url4}/search`, {
+    params: { q: query },
+  });
+};
 
-export const adminleriGetir=()=>axios.get(url6);
-export const adminGetir=(id)=>axios.get(`${url6}/${id}`);
-export const adminEkle=(formData)=>axios.post(`${url6}/signup`,formData);
-export const adminGuncelle=(id,formData)=>axios.patch(`${url6}/${id}`,formData);
-export const adminSil = (id) => axios.delete(`${url6}/${id}`);
+export const markalariGetir = () => API.get(url5);
+export const markaGetir = (id) => API.get(`${url5}/${id}`);
+export const markaEkle = (formData) => API.post(url5, formData);
+export const markaGuncelle = (id, formData) => API.patch(`${url5}/${id}`, formData);
+export const markaSil = (id) => API.delete(`${url5}/${id}`);
+
+export const adminleriGetir = () => API.get(url6);
+export const adminGetir = (id) => API.get(`${url6}/${id}`);
+export const adminEkle = (formData) => API.post(`${url6}/signup`, formData);
+export const adminGuncelle = (id, formData) => API.patch(`${url6}/${id}`, formData);
+export const adminSil = (id) => API.delete(`${url6}/${id}`);
 
 export const adminGirisYap=(formData)=>axios.post('/api/admin/signin',formData);

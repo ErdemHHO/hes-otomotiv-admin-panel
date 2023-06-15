@@ -8,7 +8,6 @@ import { BiCategoryAlt } from 'react-icons/bi';
 import {GrUserAdmin} from 'react-icons/gr';
 import {BsFillBagCheckFill} from 'react-icons/bs';
 import {TbBrandSteam} from 'react-icons/tb';
-import {RiMoneyDollarBoxFill} from 'react-icons/ri';
 
 
 function Sidebar() {
@@ -78,14 +77,6 @@ function Sidebar() {
                     <BsFillBagCheckFill size={24} />
                   </span>
                   Ürünler
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/finans">
-                  <span data-feather="bar-chart-2" className="align-text-bottom mx-3">
-                    <RiMoneyDollarBoxFill size={24} />
-                  </span>
-                  Finans
                 </Link>
               </li>
               <li className="nav-item">

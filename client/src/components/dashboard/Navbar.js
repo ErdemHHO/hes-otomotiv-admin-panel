@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as actionType from '../../constants/actionTypes';
 
 function Navbar() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('AdminProfile')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('adminProfile')));
 
   const navigate = useNavigate();
 
@@ -34,8 +34,16 @@ function Navbar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+        
         </button>
+
+        <div className="navbar-nav">
+          <div className="nav-item text-nowrap  ">
+            <div className="nav-link fontControl px-3 text-white">
+              <h4>{user?.result?.adminName} {user?.result?.adminSurname}</h4>
+            </div>
+          </div>
+        </div>
       </header>
     </div>
   );

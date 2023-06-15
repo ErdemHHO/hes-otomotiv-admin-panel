@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button} from 'react-bootstrap';
 import * as api from '../../api/index.js';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import PhotoModal from "./PhotoModal";
-import FormCom from "./FormCom";
 import UpFormCom from "./UpFormCom";
 import ProductUpdateModal from "./ProductUpdateModal";
 import { TiTickOutline } from "react-icons/ti";

@@ -4,12 +4,15 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 
+// import sellingRoutes from './routes/selling.js';
+// import paymentRoutes from './routes/payment.js';
 import brandRoutes from './routes/brand.js';
 import categoryRoutes from './routes/category.js';
 import carRoutes from './routes/car.js';
 import seriRoutes from './routes/seri.js';
 import productRoutes from './routes/product.js';
 import adminRoutes from './routes/admin.js';
+
 
 const app = express();
 dotenv.config();
@@ -20,6 +23,8 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static("public"));
 
+// app.use('/api/selling', sellingRoutes);
+// app.use('/api/payment', paymentRoutes);
 app.use('/api/brand', brandRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/car', carRoutes);

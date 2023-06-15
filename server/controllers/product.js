@@ -241,6 +241,40 @@ const getProduct = async (req, res) => {
     }
   };
   
+
+
+const totalProductNumber = async (req, res) => {
+  try {
+      const products = await ProductModel.find();
+      if (!products || products.length === 0) {
+      return res.status(400).json({ success: false, message: "Ürün bulunamadı" });
+      }
+      // stok sayısı ile costPrice çarpılıp toplanıyor
+      const totalCostPrice = products.reduce((acc, product) => acc + product.stock * product.costPrice, 0);
+      // stok sayısı ile price çarpılıp toplanıyor
+      const totalSalesPrice = products.reduce((acc, product) => acc + product.stock * product.sellingPrice, 0);
+      // toplam ürün sayısı
+      const totalProducts = products.reduce((acc, product) => acc + product.stock, 0);
+      //toplam ürün çeşidi ? kaç kayıt var
+      const totalProductTypes = products.length;
+      //aktif ürün sayısı
+      const totalActiveProducts = products.filter((product) => product.isActive).length;
+      //pasif ürün sayısı
+      const totalPassiveProducts = products.filter((product) => !product.isActive).length;
+
+      res.status(200).json({
+      success: true,
+      totalCostPrice,
+      totalSalesPrice,
+      totalProducts,
+      totalProductTypes,
+      totalActiveProducts,
+      totalPassiveProducts,
+      });
+  } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+  }
+};
   
 
 
@@ -251,5 +285,6 @@ export {
   updateProduct,
   deleteProduct,
   searchProduct,
+  totalProductNumber,
   };
   
