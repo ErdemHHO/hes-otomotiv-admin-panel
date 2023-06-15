@@ -8,6 +8,7 @@ import PhotoModal from "./PhotoModal";
 import FormCom from "./FormCom";
 import UpFormCom from "./UpFormCom";
 import ProductUpdateModal from "./ProductUpdateModal";
+import BuldPriceUpdateModal from "./BuldPriceUpdateModal";
 import { TiTickOutline } from "react-icons/ti";
 import { AiFillSetting, AiFillDelete,AiOutlineArrowUp } from "react-icons/ai";
 import {FaTimes} from "react-icons/fa";
@@ -21,6 +22,7 @@ function ProductsCom() {
 
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [modalShow3, setModalShow3] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
   const [query, setQuery] = useState("");
@@ -105,6 +107,9 @@ function ProductsCom() {
 
   const handleModalClose2 = () => {
     setModalShow2(false);
+  };
+  const handleModalClose3 = () => {
+    setModalShow3(false);
   };
 
 
@@ -261,15 +266,27 @@ function ProductsCom() {
           <div className="btn-toolbar mb-2 mb-md-0">
             <div className="btn-group me-2">
               {activePage === "urunler" ? (
-                <div>
+                <div className="d-flex">
+                  <div className="mx-1">
                   <Button
-                    variant="outline-success"
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => handlePageChange("urun-ekle")}
+                    variant="outline-danger"
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => setModalShow3(true)}
                   >
-                    Yeni Ekle
+                    Toplu Fiyat Güncelleme
                   </Button>
+                  </div>
+                  <div className="mx-1">
+                    <Button
+                      variant="outline-success"
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => handlePageChange("urun-ekle")}
+                    >
+                      Yeni Ekle
+                    </Button>
+                  </div>
                 </div>
+
               ) : activePage === "urun-ekle" ? (
                 <Button
                   variant="outline-success"
@@ -334,6 +351,10 @@ function ProductsCom() {
         show={modalShow2}
         handleClose={handleModalClose2}
         productSlug={productSlug}
+      />
+      <BuldPriceUpdateModal
+        show={modalShow3}
+        handleClose={handleModalClose3}
       />
       </main>
     </div>

@@ -277,6 +277,49 @@ const totalProductNumber = async (req, res) => {
 };
   
 
+const bulkPriceUpdate = async (req, res) => {
+  try {
+    const { percentage } = req.body;
+
+    // Geçerli oran kontrolü yapın
+    if (percentage <= 0 || percentage >= 2) {
+      return res.status(400).json({ success: false, message: "Güncelleme oranı 0 ile 2 arasında olmalıdır." });
+    }
+
+    // Tüm ürünleri getir
+    const products = await ProductModel.find();
+
+    // Her bir ürün için fiyatı güncelle
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+
+      // Mevcut fiyatları al
+      const currentSellingPrice = product.sellingPrice;
+      const currentOldPrice = product.oldPrice;
+      const currentCostPrice = product.costPrice;
+
+      // Yeni fiyatları hesapla
+      const newSellingPrice = Math.round(currentSellingPrice * percentage);
+      const newOldPrice = Math.round(currentOldPrice * percentage);
+      const newCostPrice = Math.round(currentCostPrice * percentage);
+
+      // Fiyatları güncelle
+      product.sellingPrice = newSellingPrice;
+      product.oldPrice = newOldPrice;
+      product.costPrice = newCostPrice;
+
+      // Ürünü kaydet
+      await ProductModel.findByIdAndUpdate(product._id, product, { new: true });
+    }
+
+    return res.status(200).json({ success: true, message: 'Fiyatlar başarıyla güncellendi.' });
+  } catch (error) {
+    console.error('Fiyat güncelleme hatası:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
 
 export {
   getAllProducts,
@@ -286,5 +329,6 @@ export {
   deleteProduct,
   searchProduct,
   totalProductNumber,
+  bulkPriceUpdate
   };
   
