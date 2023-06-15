@@ -37,6 +37,7 @@ export const arabaSil = (id) => API.delete(`${url3}/${id}`);
 export const urunleriGetir = () => API.get(url4);
 export const urunGetir = (id) => API.get(`${url4}/${id}`);
 export const urunToplamlarıGetir = () => API.get(`${url4}/total/total`);
+export const topluUrunGuncelle = (formData) => API.post(`${url4}/bulk/price`, formData);
 export const urunEkle = (formData) => API.post(url4, formData);
 export const urunGuncelle = (id, formData) => API.patch(`${url4}/${id}`, formData);
 export const urunSil = (id) => API.delete(`${url4}/${id}`);
