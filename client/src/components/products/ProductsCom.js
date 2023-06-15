@@ -157,7 +157,6 @@ function ProductsCom() {
       name: "Marka",
       selector: (row) => {
         const brand = brands.find((item) => row.brand_id === item._id);
-        console.log("brands",brand);
         return brand ? brand.name : "";
       },
       width: '100px',

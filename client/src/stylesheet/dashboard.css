@@ -151,3 +151,21 @@ body {
 .isActiveNo:hover{
   color: #ff0019;
 }
+
+
+.card-text{
+  font-size: 2rem;
+}
+.card{
+  width: 100% !important;
+  height: 180px;
+}
+
+.card:hover{
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+}
+
+
+.alert-message{
+  margin-top: 50px !important;
+}

@@ -15,7 +15,6 @@ function UpFormCom({ handlePageChange, carSlug }) {
   const [formErrors, setFormErrors] = useState({});
   const [uploadImage, setUploadImage] = useState([]);
   const [images, setImages] = useState([]);
-  console.log(images)
 
   const handleChange = (e) => {
     setFormCarData({ ...formCarData, [e.target.name]: e.target.value });

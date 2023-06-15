@@ -11,7 +11,6 @@ function UpFormModal({ show, handleClose, adminId }) {
     newConfirmPassword: "",
     isSuperAdmin: "",
   });
-  console.log(adminFormData); 
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {

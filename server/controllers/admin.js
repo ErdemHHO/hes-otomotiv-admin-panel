@@ -22,19 +22,17 @@ const signin = async (req, res) => {
       adminId: admin._id,
       adminName: admin.name,
       adminSurname: admin.surname,
+      isSuperAdmin: admin.isSuperAdmin,
     };
 
     res.status(200).json({ success: true, result: results, token, message: "Giriş Başarılı" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, message: "Sunucu hatası", error: error.message });
   }
 };
 
 const signup = async (req, res) => {
   const { email, password, confirmPassword, name, surname,isSuperAdmin } = req.body;
-  console.log(req.body);
-
   try {
     const admin = await AdminModel.findOne({ email });
     if (admin) return res.status(400).json({ success: false, message: "Bu Admin Zaten Kayıtlı" });
@@ -64,7 +62,6 @@ const signup = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Kayıt Başarılı", newAdmin });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, message: "Sunucu hatası", error: error.message });
   }
 };
@@ -151,7 +148,6 @@ const updateAdmin = async (req, res) => {
       },
       { new: true }
     );
-    console.log("Şifre başarı ile güncellendi");
     return res.status(200).json({ success: true, message: "Şifre başarı ile güncellendi", newAdmin });
   } catch (error) {
     return res.status(400).json({ success: false, message: error.message });

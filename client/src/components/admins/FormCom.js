@@ -14,7 +14,6 @@ function FormCom( {handlePageChange} ) {
     confirmPassword: "",
     isSuperAdmin: "",
   });
-  console.log(formAdminData);
   const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {

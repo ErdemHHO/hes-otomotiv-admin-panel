@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './stylesheet/dashboard.css'
 
-import Finance from './pages/Finance';
 import Series from './pages/Series';
 import Brands from './pages/Brands';
 import Cars from './pages/Cars';
@@ -25,7 +24,6 @@ function App() {
         <Route path="/arabalar" element={<Cars />} />
         <Route path="/markalar" element={<Brands />} />
         <Route path="/urunler" element={<Products />} />
-        <Route path="/finans" element={<Finance />} />
         <Route path="/adminler" element={<Admins />} />
       </Routes>
     </BrowserRouter>
