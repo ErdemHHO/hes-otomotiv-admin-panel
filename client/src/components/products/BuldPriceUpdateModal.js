@@ -10,7 +10,7 @@ function BuldPriceUpdateModal({ show, handleClose }) {
   const [formPercentage, setFormPercentage] = useState({
     percentage: '',
   });
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,7 +63,10 @@ function BuldPriceUpdateModal({ show, handleClose }) {
                   </Form.Text>
                   </Form.Group>
                     <div className="d-grid gap-2 mt-2">
-                          <Button type="submit" variant="primary" size="lg">
+                          <Button type="submit" variant="primary" size="lg" 
+                          disabled={
+                            formPercentage.percentage === '' || formPercentage.percentage <= 0 || formPercentage.percentage >= 2
+                          }>
                             Kaydet
                           </Button>
                     </div>
