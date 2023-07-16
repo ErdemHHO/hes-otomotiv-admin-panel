@@ -42,7 +42,7 @@ export const urunEkle = (formData) => API.post(url4, formData);
 export const urunGuncelle = (id, formData) => API.patch(`${url4}/${id}`, formData);
 export const urunSil = (id) => API.delete(`${url4}/${id}`);
 export const urunBul = (query) => {
-  return API.get(`${url4}/search`, {
+  return API.get(`${url4}/search/search`, {
     params: { q: query },
   });
 };
