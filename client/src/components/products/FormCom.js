@@ -4,7 +4,6 @@ import * as api from '../../api/index.js';
 import { toast } from 'react-toastify';
 import Dropzone from 'react-dropzone';
 import { FiUpload, FiX } from 'react-icons/fi';
-import CarsCom from '../cars/CarsCom.js';
 
 function FormCom({ handlePageChange }) {
   const [product, setProduct] = useState({});
@@ -299,7 +298,7 @@ function FormCom({ handlePageChange }) {
                               onChange={handleChangeCars}
                               checked={formProductData.car_id.includes(item._id.toString())}
                             />{' '}
-                            {item.name}
+                            {item.name.slice(0, 3)}
                           </label>
                       </Col>
                       ))}

@@ -61,7 +61,6 @@ function SearchProduct({ handlePageChange }) {
     try {
       const response = await axios.get(`/api/product/search/search?q=${query}`);
       setSearchProducts(response.data.products);
-
       if (response.data.success === true) {
         toast.success(`${response.data.products.length} Adet Ürün bulundu`, {
           position: toast.POSITION.TOP_CENTER,

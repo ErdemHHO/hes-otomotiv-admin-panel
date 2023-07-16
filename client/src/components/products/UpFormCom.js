@@ -337,7 +337,7 @@ function UpFormCom({ handlePageChange, productSlug }) {
                               onChange={handleChangeCars}
                               checked={formProductData.car_id.includes(item._id.toString())}
                             />{' '}
-                            {item.name}
+                            {item.name.slice(0, 3)}
                           </label>
                       </Col>
                       ))}
