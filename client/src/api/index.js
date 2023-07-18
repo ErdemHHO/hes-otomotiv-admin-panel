@@ -7,7 +7,7 @@ const url4 = "/api/product";
 const url5 = "/api/brand";
 const url6 = "/api/admin";
 
-const API = axios.create({ baseURL: 'http://localhost:4000' });
+const API = axios.create({ baseURL: 'http://3.75.212.3:3000' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('adminProfile')) {
