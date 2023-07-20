@@ -157,6 +157,16 @@ function ProductsCom() {
       selector: (row) => row.name,
       width: '175px',
       sortable: true,
+      cell: (row) => (
+        <a
+          href={`http://www.hes-otomotiv.com/${row.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-decoration-none text-dark"
+        >
+          {row.name}
+        </a>
+      ),
     },
     {
       name: "Marka",
@@ -203,6 +213,22 @@ function ProductsCom() {
             <TiTickOutline size={20} className="isActiveYes" />
           ) : (
             <FaTimes size={20} className="isActiveNo" />
+          )}
+        </div>
+      ),
+    },
+    {
+      name: "Satış Ş.",
+      selector: (row) => row.salesFormat,
+      sortable: true,
+      center: true,
+      width: "90px",
+      cell: (row) => (
+        <div>
+          {row.salesFormat ? (
+            'Adet'
+          ) : (
+            'Takım'
           )}
         </div>
       ),

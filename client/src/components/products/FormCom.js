@@ -324,7 +324,7 @@ function FormCom({ handlePageChange }) {
             <Col xl={4}>
               <Form.Group className="mb-3" controlId="ControlInput11">
                 <Form.Label>Satış Formatı</Form.Label>
-                <Form.Select name="saleFormat" value={formProductData.saleFormat} onChange={handleChange} required>
+                <Form.Select name="salesFormat" value={formProductData.salesFormat} onChange={handleChange} required>
                   <option value="">Seçiniz</option>
                   <option value="true">Adet</option>
                   <option value="false">Takım</option>
