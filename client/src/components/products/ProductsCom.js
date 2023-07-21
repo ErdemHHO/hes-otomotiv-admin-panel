@@ -86,12 +86,20 @@ function ProductsCom() {
 
   const deleteFunction = async (slug) => {
     try {
-      await api.urunSil(slug);
+      const response= await api.urunSil(slug);
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product.slug !== slug)
       );
+      toast.success(response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
 
