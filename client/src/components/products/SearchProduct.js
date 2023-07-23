@@ -59,7 +59,7 @@ function SearchProduct({ handlePageChange }) {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/api/product/search/search?q=${query}`);
+      const response = await axios.get(`http://3.75.212.3:3000/api/product/search/search?q=${query}`);
       setSearchProducts(response.data.products);
       if (response.data.success === true) {
         toast.success(`${response.data.products.length} Adet Ürün bulundu`, {
