@@ -7,7 +7,7 @@ const url4 = "/api/product";
 const url5 = "/api/brand";
 const url6 = "/api/admin";
 
-const API = axios.create({ baseURL: 'http://3.75.212.3:3000' });
+const API = axios.create({ baseURL: 'https://server-hesotomotiv.net' });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('adminProfile')) {
@@ -59,4 +59,4 @@ export const adminEkle = (formData) => API.post(`${url6}/signup`, formData);
 export const adminGuncelle = (id, formData) => API.patch(`${url6}/${id}`, formData);
 export const adminSil = (id) => API.delete(`${url6}/${id}`);
 
-export const adminGirisYap=(formData)=>axios.post('http://3.75.212.3:3000/api/admin/signin',formData);
+export const adminGirisYap=(formData)=>axios.post('https://server-hesotomotiv.net/api/admin/signin',formData);
