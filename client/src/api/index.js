@@ -59,4 +59,4 @@ export const adminEkle = (formData) => API.post(`${url6}/signup`, formData);
 export const adminGuncelle = (id, formData) => API.patch(`${url6}/${id}`, formData);
 export const adminSil = (id) => API.delete(`${url6}/${id}`);
 
-export const adminGirisYap=(formData)=>axios.post('/api/admin/signin',formData);
+export const adminGirisYap=(formData)=>axios.post('http://3.75.212.3:3000/api/admin/signin',formData);
