@@ -6,7 +6,6 @@ files/
 
 # React generated files #
 #######################
-/build
 /dist
 
 # MongoDB generated files #
