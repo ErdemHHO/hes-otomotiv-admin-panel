@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Form, Button} from 'react-bootstrap';
-import * as api from '../../api/index.js';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import DataTable from 'react-data-table-component';
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import * as api from "../../api/index.js";
+import { toast } from "react-toastify";
+import axios from "axios";
+import DataTable from "react-data-table-component";
 import PhotoModal from "./PhotoModal";
 import UpFormCom from "./UpFormCom";
 import ProductUpdateModal from "./ProductUpdateModal";
@@ -59,7 +59,9 @@ function SearchProduct({ handlePageChange }) {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`https://server-hesotomotiv.net/api/product/search/search?q=${query}`);
+      const response = await axios.get(
+        `https://server.hes-otomotiv.com/api/product/search/search?q=${query}`
+      );
       setSearchProducts(response.data.products);
       if (response.data.success === true) {
         toast.success(`${response.data.products.length} Adet Ürün bulundu`, {
@@ -91,53 +93,61 @@ function SearchProduct({ handlePageChange }) {
       width: "90px",
       cell: (row) => (
         <img
-          src={row.image_urls && row.image_urls.length > 0 ? row.image_urls[0] : ""}
+          src={
+            row.image_urls && row.image_urls.length > 0 ? row.image_urls[0] : ""
+          }
           alt={row.name}
           style={{ width: "50px", height: "auto", cursor: "pointer" }}
-          onClick={() => handleImageClick(row.image_urls && row.image_urls.length > 0 ? row.image_urls[0] : "")}
+          onClick={() =>
+            handleImageClick(
+              row.image_urls && row.image_urls.length > 0
+                ? row.image_urls[0]
+                : ""
+            )
+          }
         />
       ),
     },
     {
       name: "Stok Kodu",
       selector: (row) => row.stockCode,
-      width: '125px',
+      width: "125px",
       sortable: true,
     },
     {
       name: "Oem No",
       selector: (row) => row.oemNumber,
-      width: '100px',
+      width: "100px",
       sortable: true,
     },
     {
       name: "Ürün Adı",
       selector: (row) => row.name,
-      width: '200px',
+      width: "200px",
       sortable: true,
     },
     {
       name: "Stok",
       selector: (row) => row.stock,
-      width: '75px',
+      width: "75px",
       sortable: true,
     },
     {
       name: "Maliyet",
       selector: (row) => row.costPrice,
-      width: '90px',
+      width: "90px",
       sortable: true,
     },
     {
       name: "İndirimsiz F.",
       selector: (row) => row.oldPrice,
-      width: '115px',
+      width: "115px",
       sortable: true,
     },
     {
       name: "Satış F.",
       selector: (row) => row.sellingPrice,
-      width: '100px',
+      width: "100px",
       sortable: true,
     },
     {
@@ -190,10 +200,10 @@ function SearchProduct({ handlePageChange }) {
   ];
 
   const paginationOptions = {
-    rowsPerPageText: 'Sayfa başına satır:',
-    rangeSeparatorText: 'e',
+    rowsPerPageText: "Sayfa başına satır:",
+    rangeSeparatorText: "e",
     selectAllRowsItem: true,
-    selectAllRowsItemText: 'Tüm satırları seç',
+    selectAllRowsItemText: "Tüm satırları seç",
   };
 
   const customStyles = {
@@ -211,7 +221,14 @@ function SearchProduct({ handlePageChange }) {
       <div className="m-3 px-5">
         <h4>Ürün Arayın</h4>
         <Form onSubmit={handleSearch}>
-          <Form.Control type="search" placeholder="Ürün Arayın" className="me-2" aria-label="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <Form.Control
+            type="search"
+            placeholder="Ürün Arayın"
+            className="me-2"
+            aria-label="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <div className="d-grid gap-2 m-2">
             <Button type="submit" variant="warning" size="lg">
               Ara
@@ -221,24 +238,27 @@ function SearchProduct({ handlePageChange }) {
       </div>
 
       {activePage === "urun-ara" ? (
+        <div className="table-responsive text-center">
           <div className="table-responsive text-center">
-            <div className="table-responsive text-center">
-                <DataTable
-                title="Ürünler"
-                columns={columns}
-                data={searchProducts}
-                pagination
-                paginationComponentOptions={paginationOptions}
-                customStyles={customStyles}
-                className="table table-striped table-sm p-1"
-              />
-            </div>
+            <DataTable
+              title="Ürünler"
+              columns={columns}
+              data={searchProducts}
+              pagination
+              paginationComponentOptions={paginationOptions}
+              customStyles={customStyles}
+              className="table table-striped table-sm p-1"
+            />
           </div>
-        ) : (
-          <div>
-            <UpFormCom productSlug={productSlug} handlePageChange={handlePageChange} />
-          </div>
-        )}
+        </div>
+      ) : (
+        <div>
+          <UpFormCom
+            productSlug={productSlug}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
 
       <PhotoModal
         show={modalShow}
