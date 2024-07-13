@@ -60,7 +60,7 @@ function SearchProduct({ handlePageChange }) {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `https://server.hes-otomotiv.com/api/product/search/search?q=${query}`
+        `https://193.57.41.102:4000/api/product/search/search?q=${query}`
       );
       setSearchProducts(response.data.products);
       if (response.data.success === true) {
