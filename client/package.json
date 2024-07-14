@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://193.57.41.102:4000",
+  "proxy": "https://server-hesotomotiv.com",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
