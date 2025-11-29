@@ -27,7 +27,6 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/erdemhho:admin-latest
 
-      # Deploy to server
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -37,5 +36,8 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/erdemhho:admin-latest
             docker rm -f react-admin || true
-            docker run -d --name react-admin --network host ${{ secrets.DOCKERHUB_USERNAME }}/erdemhho:admin-latest
+            docker run -d \
+              --name react-admin \
+              -p 3005:80 \
+              ${{ secrets.DOCKERHUB_USERNAME }}/erdemhho:admin-latest
 
