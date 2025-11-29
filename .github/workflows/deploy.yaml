@@ -38,6 +38,7 @@ jobs:
             docker rm -f react-admin || true
             docker run -d \
               --name react-admin \
-              -p 3005:80 \
+              -p 3005:3000 \
               ${{ secrets.DOCKERHUB_USERNAME }}/erdemhho:admin-latest
+
 
